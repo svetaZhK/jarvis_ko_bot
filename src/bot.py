@@ -1,5 +1,4 @@
 import datetime as dt
-from tkinter import Y
 import telebot
 import config
 bot = telebot.TeleBot(config.BOT_TOKEN)
