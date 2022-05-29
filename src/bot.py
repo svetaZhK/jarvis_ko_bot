@@ -1,1 +1,97 @@
-print('hello')
+import datetime as dt
+from tkinter import Y
+import telebot
+import config
+bot = telebot.TeleBot(config.BOT_TOKEN)
+
+
+text_user = ['ghbdtn', 'привет']
+days_week = {
+    'понедельник': 5,
+
+    'вторник': 4,
+    'среда': 3,
+    'четверг': 2,
+    'пятница': 1,
+    'суббота': 0,
+    'воскресенье': 1
+}
+
+current_list = {'Понедельник': 'свободно',
+                'Вторник': '9-30 Английский с Олегом, 20-00 Испанский',
+                'Среда': '20-00 Skyeng',
+                'Четверг': 'свободно',
+                'Пятница': '9-30 Английский с Олегом',
+                'Суббота': '18-00 Skyeng',
+                'Воскресенье': 'свободно'
+                }
+
+
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+    print(message.text)
+    #bot.reply_to(message, f'Привет, {message.from_user.first_name} \U0001F64C')
+
+    if message.text == '/time':
+        time_utc = dt.datetime.utcnow()
+        bot.reply_to(message, f'Время UTC: {time_utc}')
+
+    elif message.text.lower() in text_user:
+        print(message.text)
+        bot.reply_to(
+            message, f'Привет, {message.from_user.first_name} \U0001F64C')
+
+    elif message.text == 'timetable':
+        days = []
+        for day, activity in current_list.items():
+            days.append(f'{day}: {activity}')
+        text = '\n'.join(days)
+        bot.reply_to(message, text)
+
+# Этим кодом хочу сократить запись следующего за ним кода!
+    # for days in days_week():
+    # elif message.text == days_week.keys():
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=days_week.values())
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+# Этот код работает!
+    # elif message.text == 'понедельник':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=5)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'вторник':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=4)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'среда':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=3)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'четверг':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=2)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'пятница':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=1)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'суббота':
+    #     current_day = dt.datetime.utcnow() - dt.timedelta(days=0)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+    # elif message.text == 'воскресенье':
+    #     current_day = dt.datetime.utcnow() + dt.timedelta(days=1)
+    #     bot.reply_to(
+    #         message, f"{message.text} на этой неделе {current_day.strftime('%d %B %Y')}")
+
+
+print('start polling')
+bot.infinity_polling()
+print('finish polling')
