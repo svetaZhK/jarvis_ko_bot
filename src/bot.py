@@ -40,7 +40,7 @@ def get_text_messages(message):
         bot.reply_to(
             message, f'Привет, {message.from_user.first_name} \U0001F64C')
 
-    elif message.text == 'timetable':
+    elif message.text == '/timetable':
         days = []
         for day, activity in current_list.items():
             days.append(f'{day}: {activity}')
