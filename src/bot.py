@@ -33,7 +33,7 @@ def get_text_messages(message):
 
     if message.text == '/time':
         time_utc = dt.datetime.utcnow()
-        bot.reply_to(message, f'Время UTC: {time_utc} My new changes in this file')
+        bot.reply_to(message, f'Время UTC: {time_utc}')
 
     elif message.text.lower() in text_user:
         print(message.text)
