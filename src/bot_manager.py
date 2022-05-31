@@ -8,6 +8,7 @@ bot = telebot.TeleBot(config.BOT_MANAGER_TOKEN)
 def get_text_messages(message):
     if not message.from_user.username in config.ALLOWED_USERS:
         bot.reply_to(message, 'access denied')
+        return
 
     if message.text == '/start_jarvis':
         result = os.system('pm2 start jarvis_bot')
